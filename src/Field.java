@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Fields {
+public class Field {
     private String firstName;
     private String lastName;
 

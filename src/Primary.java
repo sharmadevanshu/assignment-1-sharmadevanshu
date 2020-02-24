@@ -1,187 +1,143 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
-class Primary
+class Primary {
+    public int printContacts(ArrayList<Fields> ob)
     {
-        ArrayList<Fields> EmptyList = new ArrayList<>();
         Scanner sc = new Scanner(System.in);
-
-        public void add_contacts()
-        {
-
-
-            Fields obj = new Fields();
-            System.out.println("enter first name : ");
-            while (!sc.hasNext("[A-Za-z]+"))
-            {
-                System.out.println("that seems invalid entry, try again?");
-                sc.next();
-            }
-            String n = sc.next();
-            obj.setF_name(n);
-            System.out.println("enter last name : ");
-            while (!sc.hasNext("[A-Za-z]+"))
-            {
-                System.out.println("that seems invalid entry, try again?");
-                sc.next();
-            }
-            String n2 = sc.next();
-            obj.setS_name(n2);
-            System.out.println("how many no.s do you want to add? : ");
-            int add = sc.nextInt();
-            int c = 0;
-            while (add > 0) {
-                System.out.println("enter a valid 10 digit mobile number : ");
-                while (!sc.hasNext("[6789][0-9]{9}")) {
-                    System.out.println("it doesn't seems correct, your entered mob. no. must start with 6, 7, 8 or 9 ");
-                    sc.next();
-                }
-                c++;
-                String n3 = sc.next();
-                if (c == 1) {
-                    obj.setPh_no(n3);
-                } else {
-                    obj.setPh_no(obj.getPh_no() + "\n" + n3);
-                }
-
-                add--;
-
-                sc.nextLine();
-                obj.setEmail_id(sc.nextLine());
-                System.out.println("enter your email address : ");
-                while (true)
-                {
-                    String s = sc.nextLine();
-                    if (s.matches("^(.+)@(.+)$"))
-                    {
-                        obj.setEmail_id(s);
-                        break;
-                    }
-                    else
-                        {
-                        System.out.println("invalid email, try again!");
-                        }
-                }
-                EmptyList.add(obj);
-            }
+        int i = 1;
+        System.out.println("Here are all your contacts: ");
+        for (Fields oj : ob) {
+            System.out.println(i++ + ". " + oj.getFirstName() + " " + oj.getLastName());
         }
+        System.out.println("Press the number against the contact to delete it: ");
+        return sc.nextInt() - 1;
 
-    public void display()
+    }
+
+    public void viewDetails(Fields oj) {
+        System.out.println("-------- * -------- * -------- * --------");
+        System.out.println("First Name: " + oj.getFirstName());
+        System.out.println("Last Name: " + oj.getLastName());
+        String s = "" + oj.getContactNumbers();
+        System.out.println("Contact Number(s): " + s.substring(1, s.length() - 1));
+        System.out.println("Email address: " + oj.getEmailAddress());
+        System.out.println("-------- * -------- * -------- * --------");
+
+
+    }
+
+    public void viewContact(ArrayList<Fields> ob) {
+        System.out.println("---Here are all your contacts---");
+        for (Fields oj : ob) {
+            viewDetails(oj);
+        }
+    }
+
+    public void searchContact(ArrayList<Fields> ob)
     {
-        for (Fields e : EmptyList)
-        {
-            System.out.println(e);
+        System.out.println("You could search for a contact from their first names:");
+        Scanner sc = new Scanner(System.in);
+        String searchName = sc.nextLine();
+        int count = 0;
+        ArrayList<Integer> ar = new ArrayList<>();
+        int i = 0;
+        for (Fields oj : ob) {
+            if (oj.getFirstName().equals(searchName)) {
+                ar.add(i);
+                count++;
+            }
+            i++;
         }
+        if (count == 0)
+            System.out.println("No match found!");
+        else
+            System.out.println(count + "match found!");
+        for (Integer index : ar) {
+            Primary object = new Primary();
+            object.viewDetails(ob.get(index));
+
+        }
+
     }
 
-        public void search()
-        {
-            Fields p;
-            System.out.println("enter that you want to search");
-            String attr = sc.nextLine();
-            System.out.println("you want to search by which attribute");
-            String s = sc.nextLine();
-            for (Fields fields : EmptyList)
-            {
-                p = fields;
-                if (s.equalsIgnoreCase("f_name"))
-                {
-                    if (p.getF_name().equalsIgnoreCase(attr))
-                    {
-                        System.out.println("match found" + "\n");
-                        System.out.println("<>-----------x------x----------<>");
-                        System.out.println(p);
-                    }
-                }
-                    else if (s.equalsIgnoreCase("s_name"))
-                    {
-                        if (p.getS_name().equalsIgnoreCase(attr))
-                        {
-                            System.out.println("match found" + "\n");
-                            System.out.println("<>-----------x------x----------<>");
-                            System.out.println(p);
-                        }
-                    }
-                    else if (s.equalsIgnoreCase("ph_no"))
-                    {
-                        if (p.getPh_no().contains(attr))
-                        {
-                            System.out.println("match found" + "\n");
-                            System.out.println("<>-----------x------x----------<>");
-                            System.out.println(p);
-                        }
-                    }
+    Fields ob = new Fields();
+    Primary ob1 = new Primary();
 
-                    else if (s.equalsIgnoreCase("email_id"))
-                    {
-                        if (p.getEmail_id().equalsIgnoreCase(attr))
-                        {
-                        System.out.println("match found" + "\n");
-                        System.out.println("<>-----------x------x----------<>");
-                        System.out.println(p);
-                        }
-                    }
-                        else
-                        {
-                            System.out.println("please enter valid attribute");
-                        }
-            }
-        }
-
-        public void delete()
-        {
-            Fields p;
-            System.out.println("enter that you want to remove");
-            String attr = sc.nextLine();
-            System.out.println("you want to search by which attribute");
-            String s = sc.nextLine();
-            for (int i = 0; i < EmptyList.size(); i++)
-            {
-                p = EmptyList.get(i);
-                if (s.equalsIgnoreCase("f_name"))
-                {
-                    if (p.getF_name().equalsIgnoreCase(attr))
-                    {
-                        System.out.println("match found"+"\n");
-                        System.out.println("<>-----------x------x----------<>");
-                        EmptyList.remove(p);
-                        System.out.println("the contact of " + p.getF_name()+" has deleted" );
-                    }
-                }
-                else if (s.equalsIgnoreCase("s_name"))
-                {
-                    if (p.getS_name().equalsIgnoreCase(attr))
-                    {
-                        System.out.println("match found"+"\n");
-                        System.out.println("<>-----------x------x----------<>");
-                        EmptyList.remove(p);
-                        System.out.println("the contact of " + p.getF_name()+" has deleted" );
-                    }
-                }
-                else if (s.equalsIgnoreCase("ph_no"))
-                {
-                    if (p.getPh_no().contains(attr))
-                    {
-                        System.out.println("match found"+"\n");
-                        System.out.println("<>-----------x------x----------<>");
-                        EmptyList.remove(p);
-                        System.out.println("the contact of " + p.getF_name()+" has deleted" );
-                    }
-                }
-                else if (s.equalsIgnoreCase("email_id"))
-                {
-                    if (p.getEmail_id().equalsIgnoreCase(attr))
-                    {
-                        System.out.println("match found"+"\n");
-                        System.out.println("<>-----------x------x----------<>");
-                        EmptyList.remove(p);
-                        System.out.println("the contact of " + p.getF_name()+" has deleted" );
-                    }
-                }
-                else
-                    {
-                        System.out.println("please enter valid attribute");
-                    }
-            }
-        }
+    public void addFirstName(String fn) {
+        ob.setFirstName(fn);
     }
+
+    public void addLastName(String ln) {
+        ob.setLastName(ln);
+    }
+
+    public boolean addNumber(String number) {
+        if (ob1.phoneNumber(number)) {
+            ob.setContactNumbers(number);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean addEmail(String mail) {
+        if (ob1.email(mail)) {
+            ob.setEmailAddress(mail);
+            return true;
+        }
+        return false;
+    }
+
+    public Fields addContact() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("You have chosen to add a new contact:\nPlease enter the name of the Person");
+        System.out.print("First Name: ");
+        addFirstName(sc.nextLine());
+        System.out.print("Last Name: ");
+        addLastName(sc.nextLine());
+        boolean a = true;
+        while (a) {
+            System.out.print("Contact Number: ");
+            String no = sc.nextLine();
+            a = addNumber(no);
+            if (!a) {
+                System.out.println("invalid no please re-enter");
+                a = true;
+                continue;
+            }
+            System.out.println("Would you like to add another contact number? (y/n): ");
+            char c = (sc.nextLine()).charAt(0);
+            a = c == 'y';
+        }//end of while
+        System.out.println("Would you like to add email address? (y/n):");
+        char c = (sc.nextLine()).charAt(0);
+        if (c == 'y') {
+            System.out.print("Email Address: ");
+            String mai = sc.nextLine();
+            boolean a1 = addEmail(mai);
+            while (!a1) {
+                System.out.println("invalid email please re-enter");
+                System.out.print("Email Address: ");
+                a1 = addEmail(sc.nextLine());
+                continue;
+            }
+        }
+        return ob;
+
+
+    }
+
+    public boolean phoneNumber(String phone) {
+        String pattern = "^(\\+91|0)?[6-9]{1}[0-9]{9}$";
+        return Pattern.matches(pattern, phone);
+    }
+
+    public boolean email(String mail) {
+        String pattern = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
+        return Pattern.matches(pattern, mail);
+    }
+
+
+}
+

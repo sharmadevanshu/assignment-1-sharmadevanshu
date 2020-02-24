@@ -18,16 +18,16 @@ class Contact {
 
             switch (select) {
                 case 1:
-                    obj.add_contacts();
+                    obj.addContact();
                     break;
                 case 2:
-                    obj.display();
+                    obj.viewDetails(oj);
                     break;
                 case 3:
-                    obj.search();
+                    obj.searchContact();
                     break;
                 case 4:
-                    obj.delete();
+                    obj.printContacts();
                     break;
                 case 5:
                     x = 5;

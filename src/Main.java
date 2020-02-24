@@ -6,7 +6,7 @@ public class Main {
     {
         ArrayList<Field> ob = new ArrayList<>();
         Scanner sc = new Scanner(System.in);
-        System.out.println("Welcome to Devanshu's Contact Application");
+        System.out.println("Welcome to Devanshu's Contact list Application");
         int a = 0;
         while (a != 5)
         {
